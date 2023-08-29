@@ -7,17 +7,21 @@ import jakarta.persistence.*;
 public class Rate {
 
     @Id
+    @GeneratedValue(strategy =  GenerationType.AUTO)
     long id;
 
-    @OneToOne
-    Currency from;
+    @ManyToOne
+    @JoinColumn(name = "fromCurrencyId", referencedColumnName = "id", nullable = false)
+    Currency fromCurrency; // TODO: why is it unique?
 
-    @OneToOne
-    Currency to;
+    @ManyToOne
+    @JoinColumn(name = "toCurrencyId", referencedColumnName = "id", nullable = false)
+    Currency toCurrency;
 
-    @Column(nullable = false)
-    double value;
+    @Column(nullable = false, name = "rate_value")
+    double rateValue;
 
-    int timestamp;
+    @Column(name = "rate_timestamp")
+    int rateTimestamp;
 
 }

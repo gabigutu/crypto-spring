@@ -23,7 +23,14 @@ public class Currency {
     private String currency;
 
     @ColumnDefault("0")
-    private boolean is_crypto;
+    @Column(name = "is_crypto")
+    private boolean isCrypto;
+
+//    @OneToOne(mappedBy = "fromCurrency", cascade = CascadeType.ALL)
+//    private Rate fromCurrency;
+//
+//    @OneToOne(mappedBy = "toCurrency", cascade = CascadeType.ALL)
+//    private Rate toCurrency;
 
 
 }
