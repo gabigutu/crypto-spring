@@ -1,9 +1,13 @@
 package com.crypto.exchange.entities;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Table(name = "rates")
 @Entity
+@Schema(description = "Model used for rate resource")
+@Data
 public class Rate {
 
     @Id
