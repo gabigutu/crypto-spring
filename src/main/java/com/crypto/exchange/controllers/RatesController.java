@@ -31,7 +31,7 @@ public class RatesController {
     @Autowired
     RatesService ratesService;
 
-    @Autowired
+    @Autowired  
     CurrencySerice currencyService;
 
     // /api/rates/[eur]-to-[usd]?amount=[1000]
