@@ -6,8 +6,6 @@ import com.crypto.exchange.exceptions.CurrencyNotFoundException;
 import com.crypto.exchange.exceptions.NegativeAmountException;
 import com.crypto.exchange.services.CurrencySerice;
 import com.crypto.exchange.services.RatesInterface;
-import com.crypto.exchange.services.RatesRandomService;
-import com.crypto.exchange.services.RatesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -23,6 +21,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -30,10 +29,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/rates")
-@Profile("!dev")
-public class RatesController {
+@Profile("dev")
+public class RatesDevController {
 
     @Autowired
+    @Qualifier("ratesServiceRandom")
     RatesInterface ratesService;
 
     @Autowired
@@ -117,6 +117,5 @@ public class RatesController {
     public void beforeDestroy() {
         System.out.println("Before destroying RatesController");
     }
-
 
 }

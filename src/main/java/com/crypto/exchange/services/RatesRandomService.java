@@ -1,25 +1,27 @@
 package com.crypto.exchange.services;
 
-
 import com.crypto.exchange.entities.Currency;
 import com.crypto.exchange.entities.Rate;
-import com.crypto.exchange.repositories.RatesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Service("ratesServiceDB")
-@Primary
-public class RatesService implements RatesInterface {
-
-    @Autowired
-    RatesRepository ratesRepository;
+@Service("ratesServiceRandom")
+//@Profile("vasilica")
+public class RatesRandomService implements RatesInterface {
 
     public List<Rate> getAllRatesFromXToY(Currency x, Currency y) {
         System.out.println("Received " + x.getCurrency() + " and " + y.getCurrency());
-        return this.ratesRepository.getAllRatesFromXToY(x.getCurrency(), y.getCurrency());
+        List<Rate> rateArrayList = new ArrayList<>();
+        Rate rate = new Rate();
+        rate.setFromCurrency(x);
+        rate.setToCurrency(y);
+        rate.setRateValue(Math.ceil(Math.random() * 1000));
+        rateArrayList.add(rate);
+        return rateArrayList;
     }
 
     public Double exchange(String fromCurrency, String toCurrency, Double amount) {
