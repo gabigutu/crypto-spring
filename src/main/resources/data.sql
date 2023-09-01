@@ -7,3 +7,4 @@ INSERT INTO rates (from_currency_id, rate_timestamp, rate_value, to_currency_id,
 INSERT INTO rates (from_currency_id, rate_timestamp, rate_value, to_currency_id, id) VALUES (1, 1693317638, 24119.01, 2, 2);
 INSERT INTO rates (from_currency_id, rate_timestamp, rate_value, to_currency_id, id) VALUES (1, 1693317641, 24121.01, 2, 3);
 
+INSERT INTO utilizatori (id, username, password) VALUES (1, 'vasile', 'parola');
