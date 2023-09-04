@@ -1,5 +1,8 @@
 package com.crypto.exchange.controllers;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.crypto.exchange.components.PrototypeStudentComponent;
 import com.crypto.exchange.components.RequestStudentComponent;
 import com.crypto.exchange.components.SessionStudentComponent;
@@ -101,6 +104,38 @@ public class HelloController extends CommonController {
 
         System.out.println("requestStudent: " + requestStudent);
         System.out.println("sessionStudent: " + sessionStudent);
+//        double rand = Math.random();
+//        if (rand < 0.33) throw new NegativeAmountException(-1.0);
+//        else if (rand < 0.66) throw new OtherException("ceva");
+        return new ResponseEntity<>("Satoshi", HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/satoshi-jwt")
+    public ResponseEntity<String> helloJWT(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader
+    ) {
+        // check if value starts with "Basic "
+        if (!authorizationHeader.startsWith("Bearer ")) {
+            return new ResponseEntity<>("Trebuie sa te autentifici", HttpStatus.FORBIDDEN);
+        }
+
+        // Basic Authentication
+        // trim "Basic "
+        String jwtToken = authorizationHeader.substring(7);
+        // split ":"
+
+
+        DecodedJWT decodedJWT = JWT.decode(jwtToken);
+
+        String issuer = decodedJWT.getIssuer();
+        Date expireDate = decodedJWT.getExpiresAt();
+        Claim claim = decodedJWT.getClaim("masina");
+
+        // base64 decode username and base64 decode password
+
+        System.out.println("issuer: " + issuer);
+        System.out.println("expireDate: " + expireDate);
+        System.out.println("claim: " + claim);
 //        double rand = Math.random();
 //        if (rand < 0.33) throw new NegativeAmountException(-1.0);
 //        else if (rand < 0.66) throw new OtherException("ceva");
