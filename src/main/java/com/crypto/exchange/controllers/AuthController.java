@@ -1,5 +1,7 @@
 package com.crypto.exchange.controllers;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.crypto.exchange.entities.User;
 import com.crypto.exchange.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,5 +51,20 @@ public class AuthController {
         // ii trimit clientului care a cerut request-ul identificatorul sesiunii
         return ResponseEntity.ok().header("Set-Cookie", responseCookie.toString()).build();
     }
+
+    @PostMapping("/login-jwt")
+    public ResponseEntity<String> login(
+            @RequestParam String username,
+            @RequestParam String password
+    ) {
+        User user = userService.findByUsernameAndPassword(username, password);
+        if (user == null) {
+            return new ResponseEntity<>("Wrong credentials", HttpStatus.FORBIDDEN);
+        }
+        Algorithm alg = Algorithm.HMAC256("cloud");
+        return new ResponseEntity<>(JWT.create().withIssuer("DB").withIssuedAt(new Date()).withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60)).withClaim("masina", "Dacia").sign(alg), HttpStatus.OK);
+
+    }
+
 
 }
