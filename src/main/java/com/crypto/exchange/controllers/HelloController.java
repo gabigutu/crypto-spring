@@ -1,6 +1,7 @@
 package com.crypto.exchange.controllers;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.crypto.exchange.components.PrototypeStudentComponent;
@@ -21,7 +22,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.Base64;
 import java.util.Date;
 
@@ -129,6 +132,23 @@ public class HelloController extends CommonController {
 
         String issuer = decodedJWT.getIssuer();
         Date expireDate = decodedJWT.getExpiresAt();
+
+        if (expireDate.before(new Date())) {
+            // return new ResponseEntity<>("JWT expired", HttpStatus.FORBIDDEN);
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/api/auth/login-jwt")
+                    .buildAndExpand().toUri();
+//            return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.LOCATION, location).build();
+            return ResponseEntity.created(location).build();
+        }
+
+        // token mobil (13 min)
+            // logout -> generez nou token deja expireat + inlocuiesc acea intrare de jwt cu tokenul expir
+        // token laptop munca (14 min)
+        // token laptop acasa (15 min)
+            // lista de autentificari
+                // - vad token-ul de pe laptopul de la munca -> deloga de la distanta laptopul de munca
         Claim claim = decodedJWT.getClaim("masina");
 
         // base64 decode username and base64 decode password
