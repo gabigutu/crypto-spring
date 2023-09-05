@@ -133,4 +133,8 @@
 		</plugins>
 	</build>
 
+	<modules>
+		<module>payment</module>
+	</modules>
+
 </project>
