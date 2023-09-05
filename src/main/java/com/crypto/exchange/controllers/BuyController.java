@@ -10,8 +10,8 @@ import java.net.ConnectException;
 @RequestMapping("/api/buy")
 public class BuyController {
 
-    @Autowired
-    PaymentClient paymentClient;
+//    @Autowired
+//    PaymentClient paymentClient;
 
     @PostMapping("/pay")
     public void pay(
@@ -20,16 +20,16 @@ public class BuyController {
             @RequestParam int cvv,
             @RequestParam Double amount
     ) {
-        String cardDataResponse = paymentClient.provideCardDetails(cardNumber, name, cvv);
-        System.out.println("Payment server responded to card check: " + cardDataResponse);
+//        String cardDataResponse = paymentClient.provideCardDetails(cardNumber, name, cvv);
+//        System.out.println("Payment server responded to card check: " + cardDataResponse);
 
         // ask amount
     }
 
     @GetMapping("/payment-alive")
     public void paymentServerIsAlive() {
-        boolean isAlive = paymentClient.isAlive();
-        System.out.println("Payment server responded to isAlive: " + isAlive);
+//        boolean isAlive = paymentClient.isAlive();
+//        System.out.println("Payment server responded to isAlive: " + isAlive);
     }
 
     @ExceptionHandler({ConnectException.class})
