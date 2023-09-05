@@ -25,6 +25,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class RatesController {
     CurrencySerice currencyService;
 
     // /api/rates/[eur]-to-[usd]?amount=[1000]
-    @GetMapping(value = "/{from}-to-{to}")
+    @GetMapping(value = "/current/{from}-to-{to}")
     public ResponseEntity<Double> showRate(
             @PathVariable("from")
             String fromCurrency,
@@ -61,8 +62,29 @@ public class RatesController {
         );
     }
 
+    // /api/rates/[eur]-html-[usd]?amount=[1000]
+    @GetMapping(value = "/html/{from}-to-{to}")
+    public ModelAndView showRateHtml(
+            @PathVariable("from")
+            String fromCurrency,
+            @PathVariable("to")
+            String toCurrency,
+            @RequestParam("amount")
+            Double amount
+    ) {
+//        if (amount < 0  ) return new ResponseEntity<>(0.0, HttpStatusCode.valueOf(400));
+        if (amount < 0  ) {
+            throw new NegativeAmountException(amount);
+        }
+        System.out.println("Trying to convert " + amount + " " + fromCurrency + " to " + toCurrency);
+
+        ModelAndView modelAndView = new ModelAndView("rate");
+        modelAndView.addObject("rataConversie", ratesService.exchange(fromCurrency, toCurrency, amount));
+        return modelAndView;
+    }
+
     // /api/rates/history-[eur]-to-[usd]
-    @GetMapping(value = "/history-{from}-to-{to}")
+    @GetMapping(value = "/history/{from}-to-{to}")
     @Operation(description = "Shows a history of rates from first currency to second currency")
     @ApiResponses({
             @ApiResponse(
